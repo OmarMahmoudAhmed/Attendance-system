@@ -13,10 +13,12 @@ def signup(request):
         form = UserRegisterForm(request.POST, request.FILES)
         if form.is_valid():
             myform = form.save()
+            '''
             username = form.changed_data['username']
             password = form.changed_data['password']
             user = authenticate(username=username, password=password)
             login(request, user)
+            '''
             #return redirect('')
     else:
         form = UserRegisterForm
