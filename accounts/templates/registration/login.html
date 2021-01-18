@@ -1,0 +1,92 @@
+
+{% load static%}
+{% load bootstrap4 %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Sign In</title>
+
+        <link rel="stylesheet" href="{% static 'fonts/material-icon/css/material-design-iconic-font.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        
+        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+        <script src="{% static 'bootstrap/js/jquery-3.1.1.min.js' %}"></script>
+        <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+
+    </head>
+    
+    <body>
+
+            <div class="main">
+                <!-- Sing in  Form -->
+                <section class="sign-in">
+                    <div class="container">
+                        <div class="signin-content">
+                            <div class="signin-image">
+                                <figure><img src="images/1.jpg" style="border-radius: 25px" alt="sing up image"></figure>
+                                <a href="{% url 'Sing-Up:signup' %}" class="signup-image-link">Create an account</a>
+                            </div>
+
+                            <div class="signin-form">
+                                <h2 class="form-title">Sign In</h2>
+
+                                <form method="POST" class="register-form" id="login-form">
+                                  {% block content %}
+
+                                  {% if form.errors %}
+                                    <p>Your username and password didn't match. Please try again.</p>
+                                  {% endif %}
+                                
+                                  {% if next %}
+                                    {% if user.is_authenticated %}
+                                      <p>Your account doesn't have access to this page. To proceed,
+                                      please login with an account that has access.</p>
+                                    {% else %}
+                                      <p>Please login to see this page.</p>
+                                    {% endif %}
+                                  {% endif %}
+                                
+                                  <form method="post" action="{% url 'login' %}">
+                                    {% csrf_token %}
+                                    {% bootstrap_form form %}
+
+                                    <input type="submit" value="login" />
+                                    <input type="hidden" name="next" value="{{ next }}" />
+                                  </form>
+                                
+                                  {# Assumes you setup the password_reset view in your URLconf #}
+                                  <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+                                
+                                {% endblock %}
+
+                                    <div class="form-group">
+                                        <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
+                                        <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
+                                    </div>
+
+                                    
+
+                                </form>
+
+                                <div class="social-login">
+                                    <span class="social-label">Or login with</span>
+
+                                    <ul class="socials">
+                                        <li><a href="#"><i class="display-flex-center zmdi zmdi-facebook"></i></a></li>
+                                        <li><a href="#"><i class="display-flex-center zmdi zmdi-twitter"></i></a></li>
+                                        <li><a href="#"><i class="display-flex-center zmdi zmdi-google"></i></a></li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+
+    </body>
+</html>
